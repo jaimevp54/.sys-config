@@ -1,3 +1,7 @@
+echo "Setting up keyboard mappings"
+ln .Xmodmap ~/.Xmodmap
+xmodmap ~/.Xmodmap
+
 echo "Setting up i3"
 echo "Creating .configs/.i3 directory "
 mkdir ~/.config/i3
