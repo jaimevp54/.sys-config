@@ -98,7 +98,6 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 bindsym $mod+z workspace z
 bindsym $mod+x workspace x
-bindsym $mod+c workspace c
 bindsym $mod+u workspace u
 bindsym $mod+i workspace i
 bindsym $mod+o workspace o
@@ -117,7 +116,6 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 bindsym $mod+Shift+z move container to workspace z
 bindsym $mod+Shift+x move container to workspace x
-bindsym $mod+Shift+c move container to workspace c
 bindsym $mod+Shift+u move container to workspace u
 bindsym $mod+Shift+i move container to workspace i
 bindsym $mod+Shift+o move container to workspace o

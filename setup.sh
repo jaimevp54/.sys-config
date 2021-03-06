@@ -3,10 +3,12 @@ ln .Xmodmap ~/.Xmodmap
 xmodmap ~/.Xmodmap
 
 echo "Setting up i3"
+echo "Deleting old i3 config file if exists"
+rm -rf .config/i3/
 echo "Creating .configs/.i3 directory "
-mkdir ~/.config/i3
+mkdir ~/.i3/
 echo "Creating config hard link"
-ln i3/config ~/.config/i3/config
+ln i3/config ~/.i3/config
 
 echo "Setting up Vim"
 echo "source ~/.sys-config/vim/.vimrc" >> ~/.vimrc
