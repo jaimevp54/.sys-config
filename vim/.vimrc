@@ -32,9 +32,9 @@ Plugin 'wesQ3/vim-windowswap' " Do I really need this?
 Plugin 'dyng/ctrlsf.vim' 
 Plugin 'mattn/emmet-vim'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'jremmen/vim-ripgrep'
 Plugin 'amadeus/vim-convert-color-to'
 Plugin 'doums/darcula'
+Plugin 'yamatsum/nvim-cursorline'
 
 
 
@@ -65,6 +65,7 @@ Plugin 'posva/vim-vue'
     Plugin 'slim-template/vim-slim.git'
 "}}}
 " Python support {{{
+    Plugin 'nvie/vim-flake8'
 
 "}}}
 
@@ -84,6 +85,9 @@ filetype plugin indent on    " required
 
     let mapleader=','
     let maplocalleader='\\'
+
+    " Do not loop when searching patterns on the file
+    set nowrapscan
 
     " Listen for external changes.
     set autoread
@@ -238,12 +242,11 @@ augroup END
 " }}}
 " Mappings (>￣³￣)>---------------------- {{{
 
-nnoremap <leader>dp Ofrom pprint import pprint as pp; import ipdb;ipdb.set_trace()<ESC>
+nnoremap <leader>dp Ofrom pprint import pprint as pp; import pdb;pdb.set_trace()<ESC>
 nnoremap <leader>dt Ofrom pprint import pprint as pp; import nose.tools; nose.tools.set_trace()<ESC>
 " Quickly open .vimrc
-nnoremap <leader>VE <C-w>v<C-l>:e ~/.vim/.vimrc<cr> 
-" Quickly open notes.md
-nnoremap <leader>NE <C-w>v<C-l>:e ~/.vim/notes.md<cr> 
+nnoremap <leader>VE <C-w>v<C-l>:e ~/.sys-config/vim/.vimrc<cr> 
+nnoremap <leader>VN <C-w>v<C-l>:e ~/.sys-config/vim/notes.txt<cr> 
 
 nnoremap <leader>/ :nohlsearch<CR>
 
@@ -452,3 +455,8 @@ iabbrev @@ jaimevp54@gmail.com
 
 " }}}
 
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
+
+" let g:ale_python_flake8_options = '--max-line-length=130'
