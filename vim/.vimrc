@@ -35,6 +35,7 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'amadeus/vim-convert-color-to'
 Plugin 'doums/darcula'
 Plugin 'yamatsum/nvim-cursorline'
+Plugin 'github/copilot.vim'
 
 
 
