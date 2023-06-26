@@ -4,6 +4,7 @@
     co = checkout
     plog = log --pretty=format:'%Cgreen%h%Creset - %s %C(red)%d%Creset %Cgreen[%an - %cr (%cd)]%Creset' --abbrev-commit --date=human
 	d = diff
+    ph = push origin HEAD
 [user]
 	email = jaimevp54@gmail.com
 	name = jaimevp54

@@ -6,6 +6,10 @@
 echo "Creating .gitconfig hard link..."
 ln ~/.sys-config/git/.gitconfig ~/.gitconfig
 
+echo "**************************"
+echo "Adding bashrc configs..."
+cat ~/.sys-config/.bashrc.append >> ~/.bashrc
+
 echo "Installing Github cli..."
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
