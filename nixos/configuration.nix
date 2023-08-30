@@ -4,12 +4,18 @@
 
 { config, pkgs, ... }:
 
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
+in
 {
+
   imports =
     [ # Include the results of the hardware scan.
+      (import "${home-manager}/nixos")
       ./hardware-configuration.nix
       /home/jvinas/.sys-config/nixos/vim.nix
     ];
+
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -17,11 +23,6 @@
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -56,7 +57,55 @@
     isNormalUser = true;
     description = "Jaime Vinas";
     extraGroups = [ "networkmanager" "wheel" "docker"];
-    packages = with pkgs; [];
+  };
+
+
+  home-manager.users.jvinas = {
+    home.username = "jvinas";
+    home.homeDirectory = "/home/jvinas";
+
+    home.stateVersion = "23.05";
+    programs.home-manager.enable = true;
+
+    programs = {
+      git = {
+        enable = true;
+        userName  = "jaimevp54";
+        userEmail = "jvinas@multimediallc.com";
+        aliases = {
+          ci = "commit";
+          co = "checkout";
+          ph = "push origin HEAD";
+          s = "status";
+          d = "diff";
+        };
+      };
+
+      bash = {
+        enable = true;
+        initExtra = ''
+          export XDG_CONFIG_HOME=$HOME/.config
+
+          parse_git_branch() {
+          git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+          }
+          export PS1="\[\033[01;34m\]\w\[\033[01;31m\]\$(parse_git_branch)\[\033[00m\]$ "
+
+          cd ~/projects/chaturbate
+        '';
+      };
+
+      zoxide = {
+        enable = true;
+      };
+    };
+
+
+    home.packages = with pkgs; [
+      (pkgs.python311.withPackages (ps: with ps; [pip ipython invoke textual requests]))
+      zeal
+      nodejs
+    ];
   };
 
   # Enable automatic login for the user.
@@ -65,20 +114,20 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  nix.settings.experimental-features = [ "nix-command" ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    (pkgs.python311.withPackages (ps: with ps; [pip ipython requests]))
+    alacritty
+    gh
     git
-    wget
+    google-chrome
+    google-cloud-sdk
+    ranger
     ripgrep                                                                                                     
     tree                                                                                            
-    nodejs
-    findutils
-    python311
-    google-chrome
-    gh
-    google-cloud-sdk
-    alacritty
   ];
 
   programs.neovim = {
@@ -88,25 +137,7 @@
     vimAlias = true;
   };
 
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   virtualisation.virtualbox.guest.enable = true;
   virtualisation.virtualbox.guest.x11 = true;
@@ -145,6 +176,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 
 }
